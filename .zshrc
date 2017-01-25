@@ -99,6 +99,15 @@ bindkey '^R' fzf-history-widget
 unzipAndRemove() {
     unzip $1 && rm $1
 }                                                                                                                                                                                                                     
+function fzf-bookmarks-widget() {
+  cd $(cat "$HOME/.config/bookmarks.cfg" | fzf --tiebreak=begin --tac | awk '{print $2}')
+  zle reset-prompt
+}
+
+zle -N fzf-bookmarks-widget
+bindkey '^S' fzf-bookmarks-widget
+
+
 alias uz=unzipAndRemove                                                                                                                                                                                                   
 alias er="extract"                                                                                                                                                                                                   
 alias hs="history" 
@@ -114,4 +123,11 @@ ZSH_THEME=simple
 lms=$HOME/work/IdeaProjects/LMSSystem 
 mira=$HOME/work/IdeaProjects/MiraFramework
 logs=$HOME/work/logs
+
+export YELLOW=`echo -e '\033[1;33m'`
+export LIGHT_CYAN=`echo -e '\033[1;36m'`
+export GREEN=`echo -e '\033[0;32m'`
+export NOCOLOR=`echo -e '\033[0m'`
+export LESS="-iMSx4 -FXR"
+export PAGER="sed \"s/^\(([0-9]\+ [rows]\+)\)/$GREEN\1$NOCOLOR/;s/^\(-\[\ RECORD\ [0-9]\+\ \][-+]\+\)/$GREEN\1$NOCOLOR/;s/|/$GREEN|$NOCOLOR/g;s/^\([-+]\+\)/$GREEN\1$NOCOLOR/\" 2>/dev/null | less"
 ##source /home/mike/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
